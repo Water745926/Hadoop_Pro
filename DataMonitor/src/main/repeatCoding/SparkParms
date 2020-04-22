@@ -1,0 +1,24 @@
+spark-submit \
+--class tagPro.Tag_Main \
+--master yarn \
+--deploy-mode cluster \
+--num-executors=40 \
+--executor-cores=8 \
+--executor-memory=48g \
+--driver-memory=4g \
+--driver-cores=4 \
+--conf spark.scheduler.mode=FAIR \
+--conf spark.yarn.executor.memoryOverhead=4096 \
+--conf spark.yarn.driver.memoryOverhead=4096 \
+--conf spark.default.parallelism=960 \
+--conf spark.sql.shuffle.partitions=960 \
+--conf spark.shuffle.consolidateFiles=ture \
+--conf spark.reducer.maxSizeInFlight=96 \
+--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+--conf spark.shuffle.blockTransferService=nio \
+--conf spark.locality.wait.process=30 \
+--conf spark.locality.wait.node=30 \
+--conf spark.locality.wait.rack=30 \
+--conf spark.scheduler.mode=FAIR \
+--conf spark.yarn.executor.memoryOverhead=4096 \
+--conf spark.yarn.driver.memoryOverhead=4096 \
