@@ -1,0 +1,45 @@
+#!bin/bash
+#【1】数据库密码从文件读取（测试时候手动输入）。
+
+#【2】执行时间：每周四23:50执行一次，或者手动调用即可。
+
+#【3】调用路径：/
+
+#接收定义参数
+param_num=$#
+ds=$1
+
+hql_01=''
+# 按行读取文件内容，并做参数循环遍历
+for tag_param in $(cat /xxx.txt); do
+        # 循环代码
+
+#------------方案1---------------explain获取，分区表可以满足，
+    #缺点是有的分区需要人为转换计算；
+    #但是可以analyze执行表分析操作；
+    #得到数据会存放在元数据中表TAB_COL_STATS,PART_COL_STATS，>优化hive查询；补充元数据PARTITION_PARAMS表。
+    paste /xx1.txt  /xx2.txt > /xx3.txt 按照行合并
+
+#-------------方案2---------------方案 字节数
+echo 请输入密码...
+# 连接数据库 查看指定表的所有分区的大小
+echo 请输入密码...
+# 准备语句给mysql
+hql_02="
+use hive;select d.NAME,t.TBL_NAME,t.TBL_ID,p.PART_ID,p.PART_NAME,a.PARAM_KEY,a.PARAM_VALUE
+on t.DB_ID = d.DB_ID
+left join PARTITIONS p
+on t.TBL_ID = p.TBL_ID
+where t.TBL_NAME='表名' and d.NAME='库名称' and a.PARAM_KEY='totalSize';"
+# 执行语句到mysql，并把结果写出到服务器的文件下面
+mysql -h -p3306 -u -p -e "${hql_02}"|grep ${ds} >> /xxx.txt
+
+#-------------方案3---------------Hive-SQL方式 求count值
+
+#-------------方案4---------------hive—SQL方式 分区描述
+# 查看分区文件并遍历查询
+fram in $(cat /xx.txt); do
+        hive -e "describe formatted 表名 partition (分区指定);" | grep rows=| grep TableScan|cut -d'(' -f2|cut -d' ' -f1 |cut -d'=' -f2
+done
+#-------------方案5---------------扫描分区目录大小
+totalSize=`aws s3 ls --sum --recursive xxx目录 | grep Size | cut -d':' -f2 | cut -d' ' -f2`
