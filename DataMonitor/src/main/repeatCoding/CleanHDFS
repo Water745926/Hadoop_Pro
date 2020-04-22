@@ -39,7 +39,7 @@ else
         sleep 10s
         exit
 #       返回用户（非root用户）用户权限
-        exit
+        exit 
 #       清理yarn日志,清理spark日志,清理spark任务临时jar包路径,清理hive数据量大于1G的表
         hdfs  dfs -rm -r yarn日志目录
         hdfs  dfs -rm -r spark临时jar包目录
