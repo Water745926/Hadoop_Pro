@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "---------------------------------正在启动dmp后台管理系统程序-----------------------------"
+
+# kill the application, where the port is server
+sudo fuser -k -n tcp 59962
+
+# deploy the application--dmp
+
+nohup java -jar temp_Project.jar &
+
+#end
