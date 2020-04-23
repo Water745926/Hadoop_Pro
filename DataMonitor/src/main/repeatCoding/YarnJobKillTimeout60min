@@ -9,14 +9,13 @@ import re
 import time
 import os
 
-#定义字典，存放运行时间
+#定义字典，存放运行时间，超时50分钟杀掉任务
 dicApps={}
 
 #超时50分钟kill掉yarn任务
 while True:
     #进程pid输出文件，方便关闭后台进程
-    commands.getoutput("echo 当前进程pid为："+ str(os.getpid())  +" >> /home/ec2-user/dmp/jiayu/shell_pro/log2_k
-ill_yarnApp.log")
+    commands.getoutput("echo 当前进程pid为："+ str(os.getpid())  +" >> /home/ec2-user/dmp/jiayu/shell_pro/log2_kill_yarnApp.log")
     #得到 Yarn RUNNING状态的任务列表
     appstr=commands.getoutput("yarn application -list -appStates RUNNING")
     runningApps=re.findall(r"application_[0-9]{13}_[0-9]{4}", appstr)
@@ -27,15 +26,13 @@ ill_yarnApp.log")
             dicApps[app]=0
         #存在不超时，状态加1
         elif dicApps[app]<5:
-            print(dicApps[app])
             dicApps[app]=dicApps[app]+1
         #存在超时，杀掉任务
         else:
-            print(dicApps[app])
             commands.getoutput("yarn application -kill " + app)
             kill_log=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + " 杀死超时任务：" + app
-            commands.getoutput("echo" + kill_log + " >> /home/ec2-user/dmp/jiayu/shell_pro/log2_kill_yarnApp.log
-") #打印日志，取消，不需要可关闭
+            print(kill_log)
+            commands.getoutput("echo " + kill_log + " >> /home/ec2-user/dmp/jiayu/shell_pro/log2_kill_yarnApp.log") #打印日志，取消，不需要可关闭
     #清理已完成的任务
     for app in list(dicApps.keys()):
         if app not in runningApps:
