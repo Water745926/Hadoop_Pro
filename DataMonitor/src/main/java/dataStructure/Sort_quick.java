@@ -44,5 +44,4 @@ public class Sort_quick {
         quickSort(arr, left, i - 1);
         quickSort(arr, i + 1, right);
     }
-
 }
