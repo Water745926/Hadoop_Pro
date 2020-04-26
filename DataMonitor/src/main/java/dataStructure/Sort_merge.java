@@ -31,7 +31,7 @@ public class Sort_merge {
             }
         }
         // 左右比较以后，剩余的放进去
-        while (i < mid) {
+        while (i <= mid) {
             temp[t] = arr[i];t++;i++;
         }
         while (j <= right) {
@@ -42,6 +42,7 @@ public class Sort_merge {
         int tempLeft = left;
         while (tempLeft <= right) {
             arr[tempLeft] = temp[t];
+            tempLeft++;t++;
         }
     }
 }
