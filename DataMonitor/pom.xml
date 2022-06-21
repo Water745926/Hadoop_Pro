@@ -16,7 +16,7 @@
         <hive.version>2.1.1</hive.version>
         <spark.version>2.2.0</spark.version>
         <spark-mllib.version>2.1.1</spark-mllib.version>
-        <mysql.version>5.1.6</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <fastjson.version>1.1.41</fastjson.version>
         <com.typesafe.config>1.3.1</com.typesafe.config>
         <geohash.version>1.3.0</geohash.version>
